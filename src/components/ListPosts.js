@@ -23,7 +23,7 @@ class ListPosts extends Component {
 	                  </select>
 	                </div>
 	              </Well>
-	            {posts.map(post => {
+	            {posts.length>0 && posts.map(post => {
 	            	return (
             			<Media key={post.id}>
 			              <Media.Left>

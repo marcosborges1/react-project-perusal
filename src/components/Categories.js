@@ -3,6 +3,7 @@ import {Well, ListGroup,ListGroupItem} from 'react-bootstrap'
 
 const Categories = (props) => {
 
+
 	const {categories} = props
 	return (
 		<div>

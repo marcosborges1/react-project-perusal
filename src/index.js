@@ -4,7 +4,16 @@ import './index.css';
 import App from './components/App';
 import { BrowserRouter } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker';
-import { createStore } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import reducer from './reducers/'
+import {Provider} from 'react-redux'
+import thunk from 'redux-thunk';
 
-ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+// const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+
+ReactDOM.render(<BrowserRouter><Provider store={store}><App /></Provider></BrowserRouter>, document.getElementById('root'));
 registerServiceWorker();
