@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 import {Well, ListGroup,ListGroupItem} from 'react-bootstrap'
 
 const Categories = (props) => {
@@ -9,9 +10,9 @@ const Categories = (props) => {
 		<div>
 			<Well bsSize="small"><b className="name-colum">Categories</b></Well>
 	        <ListGroup>
-	            {categories.map(category => {
+	            {categories.length>0 && categories.map(category => {
 	            	return (
-	            		<ListGroupItem key={category.path} href={`/category/${category.path}`}>{category.name}</ListGroupItem>	
+	            		<ListGroupItem key={category.path}><Link  to={`/category/${category.path}`}>{category.name}</Link></ListGroupItem>	
 	            	)
 	            })}
 	        </ListGroup>

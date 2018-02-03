@@ -5,7 +5,10 @@ body {
 }
 
 .red {
-	background: red;
+	color: red;
+}
+.blue {
+	color: green;
 }
 
 .name-colum {
@@ -41,7 +44,12 @@ body {
 	font-size: 30px;
 }
 .comments-count {
-
 	float: right;
-
+}
+.go-back {
+	font-size: 30px;
+}
+.margin-right {
+	font-weight: bold;
+	margin-right: 10px;
 }

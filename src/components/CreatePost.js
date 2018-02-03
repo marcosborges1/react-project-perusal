@@ -1,25 +1,19 @@
 import React from 'react';
 import {Well,Form, Col,FormGroup,Button, FormControl,ControlLabel} from 'react-bootstrap'
 import serializeForm from "form-serialize"
-import Moment from 'react-moment'
+import { connect } from 'react-redux' 
+import { addPost} from '../actions'
 
-// body
-// category
-// commentCount
-// deleted
-// id
-// timestamp
-// title
-// voteScore
 
 const CreatePost = (props) => {
 
 	const {categories} =  props
+	console.log(this.context)
 
 	return (
 		<div>
 			<Well bsSize="small"><b className="name-colum">Create Post</b></Well>
-			<Form horizontal onSubmit={handleSubmit} id="form-post">
+			<Form horizontal onSubmit={(e)=> handleSubmit(props,e)} id="form-post">
 				<FormGroup controlId="author">
 					<Col componentClass={ControlLabel} sm={2}>
 						Author
@@ -51,7 +45,7 @@ const CreatePost = (props) => {
 					<Col sm={4}>
 						<FormControl componentClass="select" name="category" placeholder="select">
 							<option key="" value="">Select</option>
-							{categories.map((category, index)=> {
+							{categories.length>0 && categories.map((category, index)=> {
 								return (
 									<option key={category.path} value={category.path}>{category.name}</option>
 								)
@@ -67,19 +61,31 @@ const CreatePost = (props) => {
 			</Form>
         </div>
 	)
+
+
 }
 
-const handleSubmit = (e) => {
+const handleSubmit = (props, e) => {
+
 	e.preventDefault()
+	const id = Math.random().toString(36).substr(1, 10)+Math.random().toString(36).substr(2, 9)
 	const valuesForm = serializeForm(e.target, {hash:true})
-	const defaultValues = {voteScore: 0, deleted: false, commentCount:0, timestamp:new Date().getTime()} 
+	const defaultValues = {id , voteScore: 0, deleted: false, commentCount:0, timestamp:Date.now()} 
 	const values = {...valuesForm, ...defaultValues}
-	
-	// if(this.props.onCreateContact)
-	// 	this.props.onCreateContact(values)
+	props.add(values)
+	props.history.push('/')
+
+
 }
 
 
-export default CreatePost
 
+const mapDispatchToProps = (dispatch) => {
 
+  return {
+      add : (data) => dispatch(addPost(data)),
+  }
+
+}
+
+export default connect(null, mapDispatchToProps)(CreatePost);

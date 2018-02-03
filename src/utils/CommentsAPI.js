@@ -12,3 +12,28 @@ export const getAllCategories = () =>
 export const getAllPosts = () =>
   fetch(`${api}/posts`, { headers })
     .then(res => res.json())
+
+export const createPost = (body) => { 
+	// console.log(JSON.stringify(body))
+	return fetch(`${api}/posts`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+}
+
+  export const votePost = (id, option) => {
+
+  	console.log(JSON.stringify({option}));
+  	return  fetch(`${api}/posts/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({option})
+  }).then(res => res.json())
+ }
