@@ -13,6 +13,13 @@ export const getAllPosts = () =>
   fetch(`${api}/posts`, { headers })
     .then(res => res.json())
 
+export const getCommentsByPost = (id) =>
+  fetch(`${api}/posts/${id}/comments`, { headers })
+    .then(res => {
+    		return res.json()
+    	}
+    )
+
 export const createPost = (body) => { 
 	// console.log(JSON.stringify(body))
 	return fetch(`${api}/posts`, {
@@ -25,9 +32,21 @@ export const createPost = (body) => {
   }).then(res => res.json())
 }
 
-  export const votePost = (id, option) => {
+export const createComment = (body) => { 
+	
+	return fetch(`${api}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+}
 
-  	console.log(JSON.stringify({option}));
+export const votePost = (id, option) => {
+	// console.log(JSON.stringify({option}));
+	// console.log(`${api}/posts/${id}`);
   	return  fetch(`${api}/posts/${id}`, {
     method: 'POST',
     headers: {
@@ -36,4 +55,35 @@ export const createPost = (body) => {
     },
     body: JSON.stringify({option})
   }).then(res => res.json())
- }
+}
+
+export const voteComment = (id, option) => {
+	console.log(`${api}/comments/${id}`);
+  	return  fetch(`${api}/comments/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({option})
+  }).then(res => res.json())
+}
+
+export const updateComment = (comment,body) => {
+	
+	const newBody = {...body, timestamp:Date.now() }
+	return fetch(`${api}/comments/${comment.id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newBody)
+  }).then(res => res.json())
+
+}
+    
+
+export const deleteComment = (comment) =>
+  fetch(`${api}/comments/${comment.id}`, { method: 'DELETE', headers, body: JSON.stringify({deletedFlad:true})})
+    .then(res => res.json())

@@ -53,3 +53,21 @@ body {
 	font-weight: bold;
 	margin-right: 10px;
 }
+.container-comments {
+	margin-top: 20px;
+	margin-left:20px;
+}
+.comment {
+	
+	background: #e4f4fc;
+	padding: 5px;	
+	border:1px solid #e3e3e3;
+}
+.edit-comment {
+	float: right;
+	margin-left: 10px;
+}
+.no-comments {
+	
+	background: #ded;
+}

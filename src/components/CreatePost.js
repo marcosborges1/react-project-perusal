@@ -12,53 +12,55 @@ const CreatePost = (props) => {
 
 	return (
 		<div>
-			<Well bsSize="small"><b className="name-colum">Create Post</b></Well>
-			<Form horizontal onSubmit={(e)=> handleSubmit(props,e)} id="form-post">
-				<FormGroup controlId="author">
-					<Col componentClass={ControlLabel} sm={2}>
-						Author
-					</Col>
-					<Col sm={10}>
-						<FormControl type='text' name="author" placeholder="Author"  />
-					</Col>
-				</FormGroup>
-				<FormGroup controlId="title">
-					<Col componentClass={ControlLabel} sm={2}>
-						Title
-					</Col>
-					<Col sm={10}>
-						<FormControl type='text' name="title" placeholder="Title"  />
-					</Col>
-				</FormGroup>
-				<FormGroup controlId="body">
-					<Col componentClass={ControlLabel} sm={2}>
-						Body
-					</Col>
-					<Col sm={10}>
-						<FormControl type="text" name="body" componentClass="textarea" placeholder="Body" />
-					</Col>
-				</FormGroup>
-				<FormGroup controlId="category">
-					<Col componentClass={ControlLabel} sm={2}>
-						Category
-					</Col>
-					<Col sm={4}>
-						<FormControl componentClass="select" name="category" placeholder="select">
-							<option key="" value="">Select</option>
-							{categories.length>0 && categories.map((category, index)=> {
-								return (
-									<option key={category.path} value={category.path}>{category.name}</option>
-								)
-							})}
-						</FormControl>
-					</Col>
-				</FormGroup>
-				<FormGroup>
-					<Col smOffset={2} sm={10}>
-						<Button type="submit"  bsStyle="primary">Send</Button>
-					</Col>
-				</FormGroup>
-			</Form>
+			<Col md={10} xs={9}>
+				<Well bsSize="small"><b className="name-colum">Create Post</b></Well>
+				<Form horizontal onSubmit={(e)=> handleSubmit(props,e)} id="form-post">
+					<FormGroup controlId="author">
+						<Col componentClass={ControlLabel} sm={2}>
+							Author
+						</Col>
+						<Col sm={10}>
+							<FormControl type='text' name="author" placeholder="Author"  />
+						</Col>
+					</FormGroup>
+					<FormGroup controlId="title">
+						<Col componentClass={ControlLabel} sm={2}>
+							Title
+						</Col>
+						<Col sm={10}>
+							<FormControl type='text' name="title" placeholder="Title"  />
+						</Col>
+					</FormGroup>
+					<FormGroup controlId="body">
+						<Col componentClass={ControlLabel} sm={2}>
+							Body
+						</Col>
+						<Col sm={10}>
+							<FormControl type="text" name="body" componentClass="textarea" placeholder="Body" />
+						</Col>
+					</FormGroup>
+					<FormGroup controlId="category">
+						<Col componentClass={ControlLabel} sm={2}>
+							Category
+						</Col>
+						<Col sm={4}>
+							<FormControl componentClass="select" name="category" placeholder="select">
+								<option key="" value="">Select</option>
+								{categories.length>0 && categories.map((category, index)=> {
+									return (
+										<option key={category.path} value={category.path}>{category.name}</option>
+									)
+								})}
+							</FormControl>
+						</Col>
+					</FormGroup>
+					<FormGroup>
+						<Col smOffset={2} sm={10}>
+							<Button type="submit"  bsStyle="primary">Send</Button>
+						</Col>
+					</FormGroup>
+				</Form>
+			</Col>
         </div>
 	)
 
@@ -78,7 +80,13 @@ const handleSubmit = (props, e) => {
 
 }
 
+const mapStateToProps = (state) => {
+  
+  return {
+    categories:state.category
+  }
 
+}
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -88,4 +96,4 @@ const mapDispatchToProps = (dispatch) => {
 
 }
 
-export default connect(null, mapDispatchToProps)(CreatePost);
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);
