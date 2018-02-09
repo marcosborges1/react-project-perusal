@@ -13,7 +13,7 @@ const Categories = (props) => {
 		        <ListGroup>
 		            {categories.length>0 && categories.map(category => {
 		            	return (
-		            		<ListGroupItem key={category.path}><Link  to={`/${category.path}/posts`}>{category.name}</Link></ListGroupItem>	
+		            		<ListGroupItem key={category.path}><Link  to={`/${category.path}`}>{category.name}</Link></ListGroupItem>	
 		            	)
 		            })}
 		        </ListGroup>

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import Navigation from './Navigation'
 import Categories from './Categories'
 import ListPosts from './ListPosts'
 import CreatePost from './CreatePost'
 import ViewPost from './ViewPost'
+import Navigation from './Navigation'
 import { Row } from 'react-bootstrap'
-import { Route, withRouter } from 'react-router-dom'
+import { Route, withRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux' 
 import { fetchPosts, fetchCategories } from '../actions'
 
@@ -25,36 +25,52 @@ class App extends Component {
 
     return (
       <div className="container">
-        <Row>
-            <Navigation />
-        </Row>
-        <Route exact path="/" render={()=> (
+        <div>
+          <h2>Perusal Project</h2>
+        </div>
+        
+        <Switch>
+          <Route exact path="/" render={()=> (
+              <Row>
+                  <Categories />
+                  <ListPosts />
+              </Row>
+            
+          )}/>
+          
+           <Route exact path="/post/create" render={({history})=> (
             <Row>
-                <Categories />
-                <ListPosts />
+                  <Navigation />
+                  <Categories />
+                  <CreatePost history={history} />
             </Row>
-        )}/>
-        <Route path="/post/create" render={({history})=> (
-          <Row>
-                <Categories />
-                <CreatePost history={history} />
-          </Row>
-        )} />
+          )} />
 
-        <Route path="/:category/posts" render={({match})=> (
-            <Row>
-                <Categories />
-                <ListPosts categorySelected={match.params.category} />
-            </Row>
-        )} />
+          <Route exact path="/:category" render={({match})=> (
+              <Row>
+                  <Navigation />
+                  <Categories />
+                  <ListPosts categorySelected={match.params.category} />
+              </Row>
+          )} />
 
-         <Route path="/posts/:id" render={({match})=> (
-            <Row>
-                <Categories />
-                <ViewPost id={match.params.id} />
-            </Row>
-        )} />
-    
+           <Route exact path="/:category/:id" render={({match, history})=> (
+              <Row>
+                  <Navigation />
+                  <Categories />
+                  <ViewPost id={match.params.id} history={history} />
+              </Row>
+          )} />
+
+          <Route exact path="/:category/:id/edit" render={({match, history})=> (
+              <Row>
+                  <Navigation />
+                  <Categories />
+                  <CreatePost history={history} id={match.params.id} />
+              </Row>
+          )} />
+
+        </Switch>
       </div>
     );
   }
