@@ -27,10 +27,12 @@ export function fetchPosts() {
 
 export function addPost(values={}) {
 	return (dispatch) => {
-		API.createPost(values).then(posts=> dispatch({
-			type: ADD_POST,
-			values
-		}))
+		API.createPost(values).then(posts=> {
+			return dispatch({
+				type: ADD_POST,
+				values
+			})
+		})
 	}
 }
 

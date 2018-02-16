@@ -18,7 +18,7 @@ export const getCommentsByPost = (id) =>
     .then(res => {
     		return res.json()
     	}
-    )
+  )
 
 export const createPost = (body) => { 
 	// console.log(JSON.stringify(body))

@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { votePost, getCommentsByPost, voteComment, addComment, deletePost, deleteComment, updateComment, updateCommentWhenPostDeleted } from '../actions'
 import sortBy from 'sort-by'
 import serializeForm from "form-serialize"
+import Styles from './Styles'
 
 class ViewPost extends Component {
 
@@ -15,9 +16,17 @@ class ViewPost extends Component {
 		numberEditForm:'',
 	}
 
-	componentDidMount() {
-		const {getComments, id} = this.props
-		getComments(id)
+	async componentDidMount() {
+
+		this.setState({ loading: true })
+		await sleep(1000)
+		
+		const {getComments, id, posts} = this.props
+		if(posts) getComments(id)
+
+		this.setState({ loading: false })
+
+		
 	}
 
 	handleVote = (id, option, e,  type='votePost') => {
@@ -91,15 +100,19 @@ class ViewPost extends Component {
 
 	render() {
 
-		const {posts, comments} = this.props
+		const {posts, comments, id} = this.props
 		const {sortComment, showAddForm, numberEditForm} = this.state
 
-		console.log(comments)
+		// console.log(posts)
 
 		return (
 			<div>
 			 	<Col md={10} xs={9}>
 					<Well bsSize="small"><b className="name-colum">View Post</b></Well>
+					<Styles>
+					{this.state.loading && <div className="loading" />}
+					</Styles>
+					{(!posts || posts.length===0) && <strong className='information-no'>No post with id: {id}</strong>}
 		            {posts.length>0 && posts.map(post => {
 		            	return (
 	            			<Media key={post.id}>
@@ -204,11 +217,14 @@ class ViewPost extends Component {
 					        </Media>
 		            	)
 		            })}
+				
 	            </Col>
 	        </div>
 		)
 	}
 }
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 const mapStateToProps = (state,props) => {
   
@@ -237,4 +253,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);
-// <span className='edit-comment'><a href='' onClick={(e)=>this.removeComment(comment,e)}><Glyphicon glyph='remove' /></a></span>

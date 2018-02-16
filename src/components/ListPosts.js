@@ -5,6 +5,7 @@ import Moment from 'react-moment'
 import { connect } from 'react-redux' 
 import { votePost, deletePost, updateCommentWhenPostDeleted} from '../actions'
 import sortBy from 'sort-by'
+// import { getOrderedPosts } from '../selectors/'
 
 class ListPosts extends Component {
 
@@ -22,6 +23,7 @@ class ListPosts extends Component {
 		this.setState({
 			sortPost:e.target.value
 		})
+
 	}
 
 	removePost = (post,e) => {
@@ -39,7 +41,9 @@ class ListPosts extends Component {
 		const {posts} = this.props
 		const {sortPost} = this.state
 		// console.log(posts)
-		posts.length>0 && posts.sort(sortBy(sortPost))
+		let postsOrdered = posts
+
+		postsOrdered = postsOrdered.length>0 && postsOrdered.sort(sortBy(sortPost))
 
 		return (
 			<div>
@@ -54,10 +58,10 @@ class ListPosts extends Component {
 		                  	</select>
 		                </div>
 		            </Well>
-		            {(!posts || posts.length===0)  && (
+		            {(!postsOrdered || postsOrdered.length===0)  && (
 		            	<h4 className='information-no'>No posts</h4>
 		            )}
-		            {posts.length>0 && posts.map(post => {
+		            {postsOrdered.length>0 && postsOrdered.map(post => {
 		            	return (
 	            			<Media key={post.id}>
 				              	<Media.Left>
@@ -94,7 +98,8 @@ class ListPosts extends Component {
 
 const mapStateToProps = (state,props) => {
   
-  // console.log(state)
+	// console.log(state)
+
   return {
   	posts:(props.categorySelected) ? state.post.length>0 && state.post.filter(res=>res.category === props.categorySelected) : state.post,
     categories:state.category,

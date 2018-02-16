@@ -4,26 +4,29 @@ import { ADD_POST, GET_POSTS, GET_CATEGORIES, VOTE_POST, GET_COMMENTSBYPOST, VOT
 function post(state={}, action) {
 
 	switch(action.type) {
-		case ADD_POST: 
+		case ADD_POST:
 			return state.concat(action.values)
 		case DELETE_POST: 
 			return state.filter(post=>post.id!==action.id)
 		case GET_POSTS: 
-			state = action.posts
-			return state
+			return {
+				...state,
+				['posts']: [...action.posts]
+			}['posts']
 		case UPDATE_POST: 
 			return state.map(result=> { 
 					if(result.id===action.post.id) {
-						result = action.post
-						return result
+						return { ...result, ...action.post }
 					}
 				return result
 			})
 		case VOTE_POST:
 			return state.map(result=> { 
 					if(result.id===action.id) {
-						 result.voteScore = action.voteScore
-						 return result
+						return { 
+							...result, 
+							['voteScore']: action.voteScore 
+						}
 					}
 				return result
 			})
@@ -43,22 +46,28 @@ function comments(state={}, action) {
 		case UPDATE_COMMENT: 
 			return state.length>0 && state.map(result=> { 
 					if(result.id===action.id) {
-						 result.timestamp = action.timestamp
-						 result.body = action.body
-						 return result
+						return { 
+							...result, 
+							['timestamp']: action.timestamp ,
+							['body']: action.body ,
+						}
 					}
 				return result
 			})
 		case DELETE_COMMENT: 
 			return state.filter(comment=>comment.id!==action.id)
-		case GET_COMMENTSBYPOST: 
-			state = action.comments
-			return state
+		case GET_COMMENTSBYPOST:
+			return {
+				...state,
+				['comments']: [...action.comments]
+			}['comments'] 
 		case VOTE_COMMENT:
-			return state.map(result=> { 
+			return state.map(result=> {
 					if(result.id===action.id) {
-						 result.voteScore = action.voteScore
-						 return result
+						return { 
+							...result, 
+							['voteScore']: action.voteScore 
+						}
 					}
 				return result
 			})
@@ -71,8 +80,10 @@ function category(state={}, action) {
 
 	switch(action.type) {
 		case GET_CATEGORIES: 
-			state = action.categories
-			return state
+			return {
+				...state,
+				['categories']: [...action.categories]
+			}['categories'] 
 		default: 
 			return state
 	}
